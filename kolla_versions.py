@@ -14,15 +14,30 @@ class AttrDict(dict):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
-THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-INDEPENDENT = ["gnocchi", "kuryr", "rally", "tempest", "networking-sfc"]
 RELEASE = "newton"
-URL = "https://raw.githubusercontent.com/openstack/kolla/stable/%s/kolla/common/config.py" % RELEASE
-r = requests.get(URL, stream=True)
+INDEPENDENT = [
+    "gnocchi",
+    "kuryr",
+    "networking-sfc",
+    "rally",
+    "tempest"
+]
+URL_KOLLA_CONFIGURATION = "https://raw.githubusercontent.com/openstack/kolla/stable/%s/kolla/common/config.py" % RELEASE
+TEMPLATE = "files/kolla_versions_template.html"
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
+VERSION_NEUTRON_LBAAS_DASHBOARD = "1.0.0"
+VERSION_RALLY = "0.7.0"
+VERSION_TEMPEST = "14.0.0"
+
+with open("files/betacloud_versions_%s.yml" % RELEASE, "r") as fp:
+    BETACLOUD_VERSIONS = yaml.load(fp)
+
+r = requests.get(URL_KOLLA_CONFIGURATION, stream=True)
 projects = {}
 
 for line in r.iter_lines():
+    # check all projects listed in config.py
     if "tar.gz" in line and "requirements" not in line:
         m = re.search("([a-z-]+)-(\d+\.\d+\.\d+).*\.tar\.gz", line)
         project = m.group(1)
@@ -31,11 +46,14 @@ for line in r.iter_lines():
         elif project == "kuryr-lib":
             project = "kuryr"
         projects[project] = {}
-        projects[project]['used'] = m.group(2)
+        projects[project]['used_kolla'] = m.group(2)
 
+        # check if release is independent
         release = RELEASE
         if project in INDEPENDENT:
             release = "_independent"
+
+        # get latest available release from releases repository
         y = requests.get("https://raw.githubusercontent.com/openstack/releases/master/deliverables/%s/%s.yaml" % (release, project), stream=True)
         if y.status_code == 200:
             d = yaml.load(y.content)
@@ -43,15 +61,27 @@ for line in r.iter_lines():
         else:
             projects[project]['current'] = '---'
 
+        # overwrite broken versions
+        if project == "rally":
+            projects[project]['current'] = VERSION_RALLY
+        elif project == "tempest":
+            projects[project]['current'] = VERSION_TEMPEST
+        elif project == "neutron-lbaas-dashboard":
+            projects[project]['current'] = VERSION_NEUTRON_LBAAS_DASHBOARD
+
+        projects[project]['used_betacloud'] = BETACLOUD_VERSIONS.get(project, '---')
+
+# render template
 j2_env = Environment(loader=FileSystemLoader(THIS_DIR),
                      trim_blocks=True,
                      autoescape=True)
-template = "kolla_versions_template.html"
-rendered_html = j2_env.get_template(template).render(
+rendered_html = j2_env.get_template(TEMPLATE).render(
     last_update=datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S'),
     projectnames=sorted(projects),
     projects=projects,
     release=RELEASE
 )
+
+# write output
 with open("versions.html", "wb") as fh:
     fh.write(rendered_html)
