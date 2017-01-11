@@ -24,14 +24,14 @@ INDEPENDENT = [
     "tempest"
 ]
 URL_KOLLA_CONFIGURATION = "https://raw.githubusercontent.com/openstack/kolla/%s/kolla/common/config.py" % RELEASE
-TEMPLATE = "files/kolla_versions_template.html"
+TEMPLATE = "files/kolla-versions-template.html"
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 VERSION_NEUTRON_LBAAS_DASHBOARD = "1.0.0"
 VERSION_RALLY = "0.7.0"
 VERSION_TEMPEST = "14.0.0"
 
-with open("files/betacloud_versions.yml", "r") as fp:
+with open("files/betacloud-versions.yml", "r") as fp:
     BETACLOUD_VERSIONS = yaml.load(fp)
 
 r = requests.get(URL_KOLLA_CONFIGURATION, stream=True)

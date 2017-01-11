@@ -2,4 +2,4 @@
 set -x
 
 source venv/bin/activate
-python kolla_versions.py
+python kolla-versions.py
