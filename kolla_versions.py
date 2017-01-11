@@ -14,7 +14,8 @@ class AttrDict(dict):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
-RELEASE = "newton"
+RELEASE = "3.0.2"
+RELEASE_NAME = "newton"
 INDEPENDENT = [
     "gnocchi",
     "kuryr",
@@ -22,7 +23,7 @@ INDEPENDENT = [
     "rally",
     "tempest"
 ]
-URL_KOLLA_CONFIGURATION = "https://raw.githubusercontent.com/openstack/kolla/stable/%s/kolla/common/config.py" % RELEASE
+URL_KOLLA_CONFIGURATION = "https://raw.githubusercontent.com/openstack/kolla/%s/kolla/common/config.py" % RELEASE
 TEMPLATE = "files/kolla_versions_template.html"
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,7 +31,7 @@ VERSION_NEUTRON_LBAAS_DASHBOARD = "1.0.0"
 VERSION_RALLY = "0.7.0"
 VERSION_TEMPEST = "14.0.0"
 
-with open("files/betacloud_versions_%s.yml" % RELEASE, "r") as fp:
+with open("files/betacloud_versions.yml", "r") as fp:
     BETACLOUD_VERSIONS = yaml.load(fp)
 
 r = requests.get(URL_KOLLA_CONFIGURATION, stream=True)
@@ -49,7 +50,7 @@ for line in r.iter_lines():
         projects[project]['used_kolla'] = m.group(2)
 
         # check if release is independent
-        release = RELEASE
+        release = RELEASE_NAME
         if project in INDEPENDENT:
             release = "_independent"
 
@@ -79,7 +80,8 @@ rendered_html = j2_env.get_template(TEMPLATE).render(
     last_update=datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S'),
     projectnames=sorted(projects),
     projects=projects,
-    release=RELEASE
+    release=RELEASE,
+    release_name=RELEASE_NAME
 )
 
 # write output
