@@ -31,12 +31,12 @@
 <p>
     Checked releases:
     <ul>
-        <li>Kolla: {{ release }}</li>
-        <li>OpenStack: {{ release_name }}</li>
+        <li>Kolla: <a href="https://github.com/openstack/kolla/tree/{{ release }}">{{ release }}</a></li>
+        <li>OpenStack: <a href="https://releases.openstack.org/{{ release_name }}/index.html">{{ release_name }}</a></li>
     </ul>
 </p>
 <p>
-    Regular updated Betacloud images based on Ubuntu 16.04 are published on quay.io in the organisation <a href="https://quay.io/organization/betacloud">betacloud</a>.
+    Regular updated <a href="https://betacloud.io">Betacloud</a> images based on Ubuntu 16.04 are published on quay.io in the organisation <a href="https://quay.io/organization/betacloud">betacloud</a>.
 <p>
     <table>
       <tr class="even">
@@ -61,7 +61,7 @@
     The following projects are checked manually:
     <ul>
         <li>Tempest: <code>tempst.yaml</code> is not included in <code>https://github.com/openstack/releases/tree/master/deliverables/_independent</code></li>
-        <li>Neutron LBaaS dashboard: <code>neutron-lbaas-dashboard.yaml</code> is not included in <code>https://github.com/openstack/releases/tree/master/deliverables/{{ release }}</code></li>
+        <li>Neutron LBaaS dashboard: <code>neutron-lbaas-dashboard.yaml</code> is not included in <code>https://github.com/openstack/releases/tree/master/deliverables/{{ release_name }}</code></li>
         <li>Rally: <code>rally.yaml</code> in the <code>releases</code> repository is not up to date</li>
     </ul>
     </p>
