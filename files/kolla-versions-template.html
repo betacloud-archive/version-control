@@ -26,6 +26,9 @@
     </style>
 </head>
 <body>
+<p>
+    Regular updated <a href="https://betacloud.io">Betacloud</a> images based on Ubuntu 16.04 are published on quay.io in the organisation <a href="https://quay.io/organization/betacloud">betacloud</a>.
+</p>
 
 <h1>Used and current versions of OpenStack projects used by Kolla</h1>
 <p>
@@ -35,8 +38,11 @@
         <li>OpenStack: <a href="https://releases.openstack.org/{{ release_name }}/index.html">{{ release_name }}</a></li>
     </ul>
 </p>
-<p>
-    Regular updated <a href="https://betacloud.io">Betacloud</a> images based on Ubuntu 16.04 are published on quay.io in the organisation <a href="https://quay.io/organization/betacloud">betacloud</a>.
+<small>
+    <p>
+    The following projects are checked automatically.
+    </p>
+</small>
 <p>
     <table>
       <tr class="even">
@@ -53,6 +59,7 @@
           <td class="{{ "red" if projects[p]["used_kolla"] != projects[p]["current"] and projects[p]["used_kolla"] != '---' }} }}">{{ projects[p]["used_kolla"] }}</td>
       </tr>
       {% endfor %}
+      <tr></tr>
     </table>
 </p>
 
@@ -65,6 +72,86 @@
         <li>Rally: <code>rally.yaml</code> in the <code>releases</code> repository is not up to date</li>
     </ul>
     </p>
+</small>
+
+<h1>Used and current versions of additional projects used by Kolla</h1>
+<small>
+    <p>
+    The following projects are checked manually.
+    </p>
+</small>
+<p>
+    <table>
+      <tr class="even">
+          <th>Project</th>
+          <th>Current version</th>
+          <th>Used version (Betacloud)</th>
+          <th>Used version (Upstream)</th>
+      </tr>
+      <tr class="odd">
+          <td>Ceph</td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr class="even">
+          <td>Elasticsearch</td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr class="odd">
+          <td>Jenkins</td>
+          <td>2.32.1</td>
+          <td>2.32.1</td>
+          <td>-</td>
+      </tr>
+      <tr class="odd">
+          <td>Kibana</td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr class="even">
+          <td>MariaDB</td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr class="odd">
+          <td>MongoDB</td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr class="even">
+          <td>RabbitMQ</td>
+          <td></td>
+          <td></td>
+          <td></td>
+       <tr class="odd">
+          <td>Sheepdog</td>
+          <td>v1.0.1</td>
+          <td>v1.0.1</td>
+          <td>-</td>
+      </tr>
+     </tr>
+      <tr class="even">
+          <td>noVNC</td>
+          <td>v0.6.2</td>
+          <td>v0.6.2</td>
+          <td class="red">v0.5.1</td>
+      </tr>
+      <tr class="odd">
+          <td>spice-html5</td>
+          <td>0.1.6</td>
+          <td>0.1.6</td>
+          <td>0.1.6</td>
+      </tr>
+    </table>
+</p>
+
+<small>
     <p>
         Provided by <a href="https://betacloud.io">Betacloud Solutions GmbH</a>.
     </p>
