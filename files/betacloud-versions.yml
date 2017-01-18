@@ -4,7 +4,7 @@ barbican: 3.0.0
 ceilometer: 7.0.1
 cinder: 9.1.1
 glance: 13.0.0
-gnocchi: 3.0.3
+gnocchi: 3.0.4
 heat: 7.0.1
 horizon: 10.0.1
 keystone: 10.0.0
