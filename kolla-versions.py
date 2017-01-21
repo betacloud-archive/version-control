@@ -24,7 +24,7 @@ INDEPENDENT = [
     "tempest"
 ]
 URL_KOLLA_CONFIGURATION = "https://raw.githubusercontent.com/openstack/kolla/%s/kolla/common/config.py" % RELEASE
-TEMPLATE = "files/kolla-versions-template.html"
+TEMPLATE = "templates/kolla-versions-template.html.j2"
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 VERSION_NEUTRON_LBAAS_DASHBOARD = "1.0.0"
