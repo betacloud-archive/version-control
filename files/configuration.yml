@@ -1,0 +1,13 @@
+---
+kolla_release: 3.0.2
+openstack_release: newton
+independent_projects:
+- gnocchi
+- kuryr
+- networking-sfc
+- rally
+- tempest
+versions:
+  rally: 0.7.0
+  neutron_lbaas_dashboard: 1.0.0
+  tempest: 14.0.0

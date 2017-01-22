@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Used and current versions of OpenStack projects used by Kolla</title>
+    <title>Used and current versions of projects used by Kolla</title>
     <style type="text/css">
         td {
         padding: 5px;
@@ -18,7 +18,7 @@
         background-color: #E0FFFF;
         }
         .red {
-        background-color: #ef3d47;
+        background-color: #ffcccb;
         }
         .green {
         background-color: #006633;
@@ -27,10 +27,18 @@
 </head>
 <body>
 <p>
+    <ul>
+        <li><a href="#openstack">Versions of OpenStack projects used by Kolla</a></li>
+        <li><a href="#kolla">Versions of additional projects used by Kolla</a></li>
+        <li><a href="#betacloud">Versions of additional projects used by Betacloud</a></li>
+    </ul>
+</p>
+<p>
     Regular updated <a href="https://betacloud.io">Betacloud</a> images based on Ubuntu 16.04 are published on quay.io in the organisation <a href="https://quay.io/organization/betacloud">betacloud</a>.
 </p>
 
-<h1>Used and current versions of OpenStack projects used by Kolla</h1>
+<h1>Versions of OpenStack projects used by Kolla</h1>
+<a name="openstack"></a>
 <p>
     Checked releases:
     <ul>
@@ -51,21 +59,20 @@
           <th>Used version (Betacloud)</th>
           <th>Used version (Upstream)</th>
       </tr>
-      {% for p in projectnames %}
+      {% for p in openstack_project_names %}
       <tr class="{{ loop.cycle('odd', 'even') }}">
           <td>{{ p }}</td>
-          <td>{{ projects[p]["current"] }}</td>
-          <td class="{{ "red" if projects[p]["used_betacloud"] != projects[p]["current"] and projects[p]["used_betacloud"] != '---' }}">{{ projects[p]["used_betacloud"] }}</td>
-          <td class="{{ "red" if projects[p]["used_kolla"] != projects[p]["current"] and projects[p]["used_kolla"] != '---' }} }}">{{ projects[p]["used_kolla"] }}</td>
+          <td>{{ openstack_projects[p]["current"] }}</td>
+          <td class="{{ "red" if openstack_projects[p]["betacloud"] != openstack_projects[p]["current"] and openstack_projects[p]["betacloud"] != '-' }}">{{ openstack_projects[p]["betacloud"] }}</td>
+          <td class="{{ "red" if openstack_projects[p]["kolla"] != openstack_projects[p]["current"] and openstack_projects[p]["kolla"] != '-' }} }}">{{ openstack_projects[p]["kolla"] }}</td>
       </tr>
       {% endfor %}
-      <tr></tr>
     </table>
 </p>
 
 <small>
     <p>
-    The following projects are checked manually:
+    The following projects are checked manually.
     <ul>
         <li>Tempest: <code>tempst.yaml</code> is not included in <code>https://github.com/openstack/releases/tree/master/deliverables/_independent</code></li>
         <li>Neutron LBaaS dashboard: <code>neutron-lbaas-dashboard.yaml</code> is not included in <code>https://github.com/openstack/releases/tree/master/deliverables/{{ release_name }}</code></li>
@@ -74,7 +81,8 @@
     </p>
 </small>
 
-<h1>Used and current versions of additional projects used by Kolla</h1>
+<h1>Versions of additional projects used by Kolla</h1>
+<a name="kolla"></a>
 <small>
     <p>
     The following projects are checked manually.
@@ -88,65 +96,35 @@
           <th>Used version (Betacloud)</th>
           <th>Used version (Upstream)</th>
       </tr>
-      <tr class="odd">
-          <td>Ceph</td>
-          <td></td>
-          <td></td>
-          <td></td>
+      {% for p in service_project_names %}
+      <tr class="{{ loop.cycle('odd', 'even') }}">
+          <td>{{ p }}</td>
+          <td>{{ service_projects[p]["current"] }}</td>
+          <td class="{{ "red" if service_projects[p]["betacloud"] != service_projects[p]["current"] and service_projects[p]["betacloud"] != '-' }}">{{ service_projects[p]["betacloud"] }}</td>
+          <td class="{{ "red" if service_projects[p]["kolla"] != service_projects[p]["current"] and service_projects[p]["kolla"] != '-' }} }}">{{ service_projects[p]["kolla"] }}</td>
       </tr>
+      {% endfor %}
+    </table>
+</p>
+
+<h1>Versions of additional projects used only by Betacloud</h1>
+<a name="betacloud"></a>
+<small>
+    <p>
+    The following projects are checked manually.
+    </p>
+</small>
+<p>
+    <table>
       <tr class="even">
-          <td>Elasticsearch</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <th>Project</th>
+          <th>Current version</th>
+          <th>Used version (Betacloud)</th>
       </tr>
-      <tr class="odd">
-          <td>Jenkins</td>
-          <td>2.32.1</td>
-          <td>2.32.1</td>
-          <td>-</td>
-      </tr>
-      <tr class="odd">
-          <td>Kibana</td>
+      <tr class="">
           <td></td>
           <td></td>
           <td></td>
-      </tr>
-      <tr class="even">
-          <td>MariaDB</td>
-          <td></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr class="odd">
-          <td>MongoDB</td>
-          <td></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr class="even">
-          <td>RabbitMQ</td>
-          <td></td>
-          <td></td>
-          <td></td>
-       <tr class="odd">
-          <td>Sheepdog</td>
-          <td>v1.0.1</td>
-          <td>v1.0.1</td>
-          <td>-</td>
-      </tr>
-     </tr>
-      <tr class="even">
-          <td>noVNC</td>
-          <td>v0.6.2</td>
-          <td>v0.6.2</td>
-          <td class="red">v0.5.1</td>
-      </tr>
-      <tr class="odd">
-          <td>spice-html5</td>
-          <td>0.1.6</td>
-          <td>0.1.6</td>
-          <td>0.1.6</td>
       </tr>
     </table>
 </p>

@@ -1,0 +1,10 @@
+---
+cadvisor: 6528
+ceph: 267
+elasticsearch: 5646
+haproxy: 1298
+influxdb: 9368
+jenkins: 5493
+kibana: 6669
+mariadb: 1887
+rabbitmq: 5585

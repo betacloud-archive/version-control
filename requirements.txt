@@ -1,3 +1,4 @@
+PyYAML
+docker
 jinja2
 requests
-PyYAML
