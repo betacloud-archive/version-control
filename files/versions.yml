@@ -15,14 +15,14 @@ openstack:
   aodh: 3.0.1
   barbican: 3.0.0
   ceilometer: 7.0.1
-  cinder: 9.1.1
+  cinder: 9.1.2
   glance: 13.0.0
-  gnocchi: 3.0.4
-  heat: 7.0.1
-  horizon: 10.0.1
-  keystone: 10.0.0
-  neutron: 9.1.1
-  neutron-lbaas: 9.1.0
+  gnocchi: 3.1.0
+  heat: 7.0.2
+  horizon: 10.0.2
+  keystone: 10.0.1
+  neutron: 9.2.0
+  neutron-lbaas: 9.2.0
   neutron-vpnaas: 9.0.0
   nova: 14.0.3
   rally: 0.7.0
