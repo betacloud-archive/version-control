@@ -17,7 +17,7 @@ openstack:
   ceilometer: 7.0.1
   cinder: 9.1.2
   glance: 13.0.0
-  gnocchi: 3.1.0
+  gnocchi: 3.0.4
   heat: 7.0.2
   horizon: 10.0.2
   keystone: 10.0.1

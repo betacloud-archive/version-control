@@ -230,6 +230,7 @@ rendered_html = j2_env.get_template(FILE_TEMPLATE).render(
     openstack_project_names=sorted(openstack_projects),
     openstack_projects=openstack_projects,
     release=CONFIGURATION["kolla_release"],
+    betacloud_release=betacloud_release,
     release_name=CONFIGURATION["openstack_release"],
     service_projects=service_projects,
     service_project_names=VERSIONS["services_kolla"]
