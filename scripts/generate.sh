@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -x
 
+virtualenv venv
 source venv/bin/activate
-python kolla-versions.py
+
+pip install -r requirements.txt
+
+python src/kolla-versions.py
