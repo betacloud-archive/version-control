@@ -7,4 +7,5 @@ influxdb: 9368
 jenkins: 5493
 kibana: 6669
 mariadb: 1887
+mariadb-galera: 1888
 rabbitmq: 5585

@@ -60,6 +60,9 @@ def cleanup_version(version):
 
 
 def get_version_from_anitya(project, series=None):
+    if project == "mariadb":
+        project = "mariadb-galera"
+
     r = requests.post(URL_ANITYA_API, data={"id": ANITYA_IDS[project]})
 
     if series:
@@ -135,7 +138,7 @@ with open(FILE_CONFIGURATION, "r") as fp:
 
 FILE_ANITYA_IDS = "files/anitya-ids.yml"
 FILE_VERSIONS = "files/versions.yml"
-FILE_TEMPLATE = "templates/kolla-versions-template.html.j2"
+FILE_TEMPLATE = "kolla-versions-template.html.j2"
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 URL_ANITYA_API = "https://release-monitoring.org/api/version/get"
 URL_KOLLA_CONFIGURATION = "https://raw.githubusercontent.com/openstack/kolla/%s/kolla/common/config.py" % CONFIGURATION["kolla_release"]
@@ -221,7 +224,7 @@ for project in VERSIONS["services_kolla"]:
 
 # render template
 
-j2_env = jinja2.Environment(loader=jinja2.FileSystemLoader(THIS_DIR),
+j2_env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"),
                             trim_blocks=True,
                             autoescape=True)
 rendered_html = j2_env.get_template(FILE_TEMPLATE).render(
