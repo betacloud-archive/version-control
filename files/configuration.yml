@@ -8,6 +8,6 @@ independent_projects:
 - rally
 - tempest
 versions:
-  rally: 0.7.0
+  rally: 0.8.1
   neutron_lbaas_dashboard: 1.0.0
   tempest: 14.0.0

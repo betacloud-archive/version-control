@@ -12,19 +12,19 @@ services_betacloud:
   - jenkins
   - sheepdog
 openstack:
-  aodh: 3.0.1
+  aodh: 3.0.2
   barbican: 3.0.0
-  ceilometer: 7.0.1
+  ceilometer: 7.0.2
   cinder: 9.1.2
   glance: 13.0.0
-  gnocchi: 3.0.4
+  gnocchi: 3.1.1
   heat: 7.0.2
   horizon: 10.0.2
   keystone: 10.0.1
   neutron: 9.2.0
   neutron-lbaas: 9.2.0
   neutron-vpnaas: 9.0.0
-  nova: 14.0.3
+  nova: 14.0.4
   rally: 0.7.0
   tempest: 14.0.0
   murano: 3.0.0

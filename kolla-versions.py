@@ -31,7 +31,6 @@ class AttrDict(dict):
 
 
 def cleanup_version(version):
-
     # some git tags include a leading v, e.g. v5.1.2
     # the 'v' has to be removed
     if version.startswith("v"):
