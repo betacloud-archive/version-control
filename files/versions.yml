@@ -25,6 +25,6 @@ openstack:
   neutron-lbaas: 9.2.0
   neutron-vpnaas: 9.0.0
   nova: 14.0.4
-  rally: 0.7.0
+  rally: 0.8.1
   tempest: 14.0.0
   murano: 3.0.0
