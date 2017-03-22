@@ -100,7 +100,7 @@ def get_version_from_docker_image(namespace, project, tag, registry=""):
     version = DOCKER.containers.run(
         image,
         "dpkg-query --showformat='${Version}' --show %s" % package,
-        name=project,
+        name="kolla-versions-%s" % project,
         remove=True
     )
     LOG.info("got version %s for %s" % (version.rstrip(), project))
