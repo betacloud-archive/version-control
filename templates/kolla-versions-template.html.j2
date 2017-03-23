@@ -29,6 +29,7 @@
 <p>
     <ul>
         <li><a href="#openstack">Versions of OpenStack projects used by Kolla</a></li>
+        <li><a href="#horizon">Versions of Horizon plugins used by Kolla</a></li>
         <li><a href="#kolla">Versions of additional projects used by Kolla</a></li>
         <li><a href="#betacloud">Versions of additional projects used by Betacloud</a></li>
     </ul>
@@ -46,11 +47,6 @@
 </p>
 <h1>Versions of OpenStack projects used by Kolla</h1>
 <a name="openstack"></a>
-<small>
-    <p>
-    The following projects are checked automatically.
-    </p>
-</small>
 <p>
     <table>
       <tr class="even">
@@ -81,13 +77,29 @@
     </p>
 </small>
 
+<h1>Versions of Horizon plugins used by Kolla</h1>
+<a name="horizon"></a>
+<p>
+    <table>
+      <tr class="even">
+          <th>Plugin</th>
+          <th>Current version</th>
+          <th>Used version (Betacloud)</th>
+          <th>Used version (Upstream)</th>
+      </tr>
+      {% for p in horizon_plugin_names %}
+      <tr class="{{ loop.cycle('odd', 'even') }}">
+          <td>{{ p }}</td>
+          <td>{{ openstack_projects[p]["current"] }}</td>
+          <td class="{{ "red" if openstack_projects[p]["betacloud"] != openstack_projects[p]["current"] and openstack_projects[p]["betacloud"] != '-' }}">{{ openstack_projects[p]["betacloud"] }}</td>
+          <td class="{{ "red" if openstack_projects[p]["kolla"] != openstack_projects[p]["current"] and openstack_projects[p]["kolla"] != '-' }} }}">{{ openstack_projects[p]["kolla"] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+</p>
+
 <h1>Versions of additional projects used by Kolla</h1>
 <a name="kolla"></a>
-<small>
-    <p>
-    The following projects are checked manually.
-    </p>
-</small>
 <p>
     <table>
       <tr class="even">
@@ -109,11 +121,6 @@
 
 <h1>Versions of additional projects used only by Betacloud</h1>
 <a name="betacloud"></a>
-<small>
-    <p>
-    The following projects are checked manually.
-    </p>
-</small>
 <p>
     <table>
       <tr class="even">

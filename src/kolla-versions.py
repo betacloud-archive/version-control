@@ -193,7 +193,10 @@ for line in r.iter_lines():
         elif project == "neutron-lbaas-dashboard":
             openstack_projects[project]['current'] = CONFIGURATION["versions"]["neutron_lbaas_dashboard"]
 
-        openstack_projects[project]['betacloud'] = VERSIONS["openstack"].get(project, '-')
+        if 'ui' in project or 'dashboard' in project:
+            openstack_projects[project]['betacloud'] = VERSIONS["horizon"].get(project, '-')
+        else:
+            openstack_projects[project]['betacloud'] = VERSIONS["openstack"].get(project, '-')
 
 # check service projects
 
@@ -227,15 +230,20 @@ for project in VERSIONS["services_kolla"]:
 j2_env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"),
                             trim_blocks=True,
                             autoescape=True)
+
+openstack_project_names=[x for x in openstack_projects.keys() if 'ui' not in x and 'dashboard' not in x]
+horizon_plugin_names=[x for x in openstack_projects.keys() if 'ui' in x or 'dashboard' in x]
+
 rendered_html = j2_env.get_template(FILE_TEMPLATE).render(
+    betacloud_release=betacloud_release,
+    horizon_plugin_names=sorted(horizon_plugin_names),
     last_update=datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S'),
-    openstack_project_names=sorted(openstack_projects),
+    openstack_project_names=sorted(openstack_project_names),
     openstack_projects=openstack_projects,
     release=CONFIGURATION["kolla_release"],
-    betacloud_release=betacloud_release,
     release_name=CONFIGURATION["openstack_release"],
+    service_project_names=VERSIONS["services_kolla"],
     service_projects=service_projects,
-    service_project_names=VERSIONS["services_kolla"]
 )
 
 # write output
