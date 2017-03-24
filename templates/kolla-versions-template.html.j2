@@ -108,12 +108,12 @@
           <th>Used version (Betacloud)</th>
           <th>Used version (Upstream)</th>
       </tr>
-      {% for p in service_project_names %}
+      {% for p in service_project_names_kolla %}
       <tr class="{{ loop.cycle('odd', 'even') }}">
           <td>{{ p }}</td>
-          <td>{{ service_projects[p]["current"] }}</td>
-          <td class="{{ "red" if service_projects[p]["betacloud"] != service_projects[p]["current"] and service_projects[p]["betacloud"] != '-' }}">{{ service_projects[p]["betacloud"] }}</td>
-          <td class="{{ "red" if service_projects[p]["kolla"] != service_projects[p]["current"] and service_projects[p]["kolla"] != '-' }} }}">{{ service_projects[p]["kolla"] }}</td>
+          <td>{{ service_projects_kolla[p]["current"] }}</td>
+          <td class="{{ "red" if service_projects_kolla[p]["betacloud"] != service_projects_kolla[p]["current"] and service_projects_kolla[p]["betacloud"] != '-' }}">{{ service_projects_kolla[p]["betacloud"] }}</td>
+          <td class="{{ "red" if service_projects_kolla[p]["kolla"] != service_projects_kolla[p]["current"] and service_projects_kolla[p]["kolla"] != '-' }} }}">{{ service_projects_kolla[p]["kolla"] }}</td>
       </tr>
       {% endfor %}
     </table>
@@ -128,11 +128,13 @@
           <th>Current version</th>
           <th>Used version (Betacloud)</th>
       </tr>
-      <tr class="">
-          <td></td>
-          <td></td>
-          <td></td>
+      {% for p in service_project_names_betacloud %}
+      <tr class="{{ loop.cycle('odd', 'even') }}">
+          <td>{{ p }}</td>
+          <td>{{ service_projects_betacloud[p]["current"] }}</td>
+          <td class="{{ "red" if service_projects_betacloud[p]["betacloud"] != service_projects_betacloud[p]["current"] and service_projects_betacloud[p]["betacloud"] != '-' }}">{{ service_projects_betacloud[p]["betacloud"] }}</td>
       </tr>
+      {% endfor %}
     </table>
 </p>
 

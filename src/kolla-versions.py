@@ -31,6 +31,8 @@ class AttrDict(dict):
 
 
 def cleanup_version(version):
+    version = str(version)
+
     # some git tags include a leading v, e.g. v5.1.2
     # the 'v' has to be removed
     if version.startswith("v"):
@@ -200,13 +202,14 @@ for line in r.iter_lines():
 
 # check service projects
 
-service_projects = {}
+service_projects_kolla = {}
+service_projects_betacloud = {}
 
 betacloud_release = get_latest_tag_from_docker_image("quay.io", "betacloud", "kolla-toolbox")
 LOG.info("latest available betacloud docker image tag is %s" % betacloud_release)
 
-for project in VERSIONS["services_kolla"]:
-    service_projects[project] = {}
+for project in VERSIONS["kolla"]:
+    service_projects_kolla[project] = {}
 
     if project == "mariadb":
         series = "10.0"
@@ -221,9 +224,19 @@ for project in VERSIONS["services_kolla"]:
 
     betacloud = get_version_from_docker_image("betacloud", project, betacloud_release, registry="quay.io")
 
-    service_projects[project]["current"] = cleanup_version(current)
-    service_projects[project]["kolla"] = cleanup_version(kolla)
-    service_projects[project]["betacloud"] = cleanup_version(betacloud)
+    service_projects_kolla[project]["current"] = cleanup_version(current)
+    service_projects_kolla[project]["kolla"] = cleanup_version(kolla)
+    service_projects_kolla[project]["betacloud"] = cleanup_version(betacloud)
+
+for project in VERSIONS["betacloud"]:
+    service_projects_betacloud[project] = {}
+
+    current = get_version_from_anitya(project)
+
+    betacloud = VERSIONS["betacloud"][project]
+
+    service_projects_betacloud[project]["current"] = cleanup_version(current)
+    service_projects_betacloud[project]["betacloud"] = cleanup_version(betacloud)
 
 # render template
 
@@ -242,8 +255,10 @@ rendered_html = j2_env.get_template(FILE_TEMPLATE).render(
     openstack_projects=openstack_projects,
     release=CONFIGURATION["kolla_release"],
     release_name=CONFIGURATION["openstack_release"],
-    service_project_names=VERSIONS["services_kolla"],
-    service_projects=service_projects,
+    service_project_names_kolla=VERSIONS["kolla"],
+    service_projects_kolla=service_projects_kolla,
+    service_project_names_betacloud=VERSIONS["betacloud"],
+    service_projects_betacloud=service_projects_betacloud,
 )
 
 # write output

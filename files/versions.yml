@@ -1,16 +1,21 @@
 ---
-services_kolla:
+kolla:
   - elasticsearch
   - haproxy
   - kibana
   - mariadb
   - rabbitmq
-services_betacloud:
-  - cadvisor
-  - docker
-  - grafana
-  - jenkins
-  - sheepdog
+betacloud:
+  ara: 0.12.3
+  cadvisor: 0.25.0
+  cobbler: 2.6.8
+  docker: 1.12.6
+  flask: 0.12
+  grafana: 4.2.0
+  influxdb: 1.2.2
+  jenkins: 2.32.3
+  redis: 3.2.8
+  sheepdog: 1.0.1
 openstack:
   aodh: 3.0.2
   barbican: 3.0.0
