@@ -132,16 +132,20 @@ LOG.setLevel(logging.INFO)
 
 # load configuration
 
-FILE_CONFIGURATION = "files/configuration.yml"
+FILE_CONFIGURATION = "etc/configuration.yml"
 with open(FILE_CONFIGURATION, "r") as fp:
     CONFIGURATION = yaml.load(fp)
 
 # some static parameters
 
-FILE_ANITYA_IDS = "files/anitya-ids.yml"
-FILE_VERSIONS = "files/versions.yml"
+FILE_ANITYA_IDS = "etc/anitya-ids.yml"
 FILE_TEMPLATE = "kolla-versions-template.html.j2"
-THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+FILES_VERSIONS = {
+    "generic": "requirements/openstack/%s/generic.yml" % CONFIGURATION["openstack_release"],
+    "horizon": "requirements/openstack/%s/horizon.yml" % CONFIGURATION["openstack_release"],
+    "other": "requirements/other.yml",
+    "docker": "requirements/openstack/docker.yml"
+}
 URL_ANITYA_API = "https://release-monitoring.org/api/version/get"
 URL_KOLLA_CONFIGURATION = "https://raw.githubusercontent.com/openstack/kolla/%s/kolla/common/config.py" % CONFIGURATION["kolla_release"]
 
@@ -154,10 +158,15 @@ with open(FILE_ANITYA_IDS, "r") as fp:
 
 DOCKER = docker.DockerClient(base_url="unix:///var/run/docker.sock")
 
-# check openstack projects
+# load versionfiles
 
-with open(FILE_VERSIONS, "r") as fp:
-    VERSIONS = yaml.load(fp)
+VERSIONS = {}
+
+for name in FILES_VERSIONS:
+    with open(FILES_VERSIONS[name], "r") as fp:
+        VERSIONS[name] = yaml.load(fp)
+
+# check openstack projects
 
 r = requests.get(URL_KOLLA_CONFIGURATION, stream=True)
 openstack_projects = {}
@@ -198,7 +207,7 @@ for line in r.iter_lines():
         if 'ui' in project or 'dashboard' in project:
             openstack_projects[project]['betacloud'] = VERSIONS["horizon"].get(project, '-')
         else:
-            openstack_projects[project]['betacloud'] = VERSIONS["openstack"].get(project, '-')
+            openstack_projects[project]['betacloud'] = VERSIONS["generic"].get(project, '-')
 
 # check service projects
 
@@ -208,7 +217,7 @@ service_projects_betacloud = {}
 betacloud_release = get_latest_tag_from_docker_image("quay.io", "betacloud", "kolla-toolbox")
 LOG.info("latest available betacloud docker image tag is %s" % betacloud_release)
 
-for project in VERSIONS["kolla"]:
+for project in VERSIONS["docker"]:
     service_projects_kolla[project] = {}
 
     if project == "mariadb":
@@ -228,12 +237,12 @@ for project in VERSIONS["kolla"]:
     service_projects_kolla[project]["kolla"] = cleanup_version(kolla)
     service_projects_kolla[project]["betacloud"] = cleanup_version(betacloud)
 
-for project in VERSIONS["betacloud"]:
+for project in VERSIONS["other"]:
     service_projects_betacloud[project] = {}
 
     current = get_version_from_anitya(project)
 
-    betacloud = VERSIONS["betacloud"][project]
+    betacloud = VERSIONS["other"][project]
 
     service_projects_betacloud[project]["current"] = cleanup_version(current)
     service_projects_betacloud[project]["betacloud"] = cleanup_version(betacloud)
@@ -255,9 +264,9 @@ rendered_html = j2_env.get_template(FILE_TEMPLATE).render(
     openstack_projects=openstack_projects,
     release=CONFIGURATION["kolla_release"],
     release_name=CONFIGURATION["openstack_release"],
-    service_project_names_kolla=VERSIONS["kolla"],
+    service_project_names_kolla=VERSIONS["docker"],
     service_projects_kolla=service_projects_kolla,
-    service_project_names_betacloud=VERSIONS["betacloud"],
+    service_project_names_betacloud=VERSIONS["other"],
     service_projects_betacloud=service_projects_betacloud,
 )
 
