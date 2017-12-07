@@ -1,4 +1,0 @@
-PyYAML
-docker
-jinja2
-requests
